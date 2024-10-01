@@ -1,59 +1,74 @@
 "use client";
-import Link from "next/link";
+
 import { useState } from "react";
 
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "../ui/button";
 
 export default function BlogOverview() {
-  const [formData, setFormData] = useState();
+  const [openBlogDialog, setOpenBlogDialog] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-purple-400 to-blue-500 pt-10">
+    <div className="min-h-screen flex flex-col  bg-gradient-to-r from-purple-400 to-blue-500 pt-10 px-10">
       <div>
-        <Link
-          href={"/"}
-          className=""
-        >
-          <button className="bg-white text-purple-400 text-lg font-bold rounded-lg py-2 px-4 mt-4">
-            Go Home
-          </button>
-        </Link>
+        <Button onClick={() => setOpenBlogDialog(true)}>Add New Blog</Button>
       </div>
-      <div className="border-solid border-2 border-white rounded-lg p-4 w-1/2 mt-6">
-        <form
-          className="flex flex-col max-w-md justify-center items-center"
-          onSubmit={handleSubmit}
-        >
-          <div className="grid w-full max-w-sm  gap-1.5">
-            <Label htmlFor="email">Title</Label>
-            <Input
-              type="text"
-              id="title"
-              placeholder="Enter blog title"
-            />
+      <div>Bloglist section</div>
+
+      <Dialog
+        open={openBlogDialog}
+        onOpenChange={setOpenBlogDialog}
+      >
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Add new BLog</DialogTitle>
+            <DialogDescription>
+              Add a new blog to your bloglist.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label
+                htmlFor="title"
+                className="text-right"
+              >
+                Title
+              </Label>
+              <Input
+                id="title"
+                defaultValue="title"
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label
+                htmlFor="description"
+                className="text-right"
+              >
+                Description
+              </Label>
+              <Textarea
+                id="description"
+                defaultValue="description"
+                className="col-span-3"
+              />
+            </div>
           </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              type="text"
-              id="description"
-              placeholder="blog description"
-            />
-          </div>
-          <Button
-            className="mt-4"
-            type="submit"
-          >
-            Add Blog
-          </Button>
-        </form>
-      </div>
+          <DialogFooter>
+            <Button type="submit">Add Blog</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
