@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useState } from "react";
+
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -15,7 +15,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function AddNewBlog({ setOpenBlogDialog, openBlogDialog }) {
+export default function AddNewBlog({
+  setOpenBlogDialog,
+  openBlogDialog,
+  loading,
+  setLoading,
+  blogFormData,
+  setBlogFormData,
+  handleSaveBlogData,
+}) {
   return (
     <div>
       <div className="mb-10">
@@ -43,6 +51,12 @@ export default function AddNewBlog({ setOpenBlogDialog, openBlogDialog }) {
               </Label>
               <Input
                 id="title"
+                name="title"
+                placeholder="Enter Title"
+                value={blogFormData.title}
+                onChange={(e) =>
+                  setBlogFormData({ ...blogFormData, title: e.target.value })
+                }
                 className="col-span-3"
               />
             </div>
@@ -55,12 +69,26 @@ export default function AddNewBlog({ setOpenBlogDialog, openBlogDialog }) {
               </Label>
               <Textarea
                 id="description"
+                name="description"
+                value={blogFormData.description}
+                onChange={(e) =>
+                  setBlogFormData({
+                    ...blogFormData,
+                    description: e.target.value,
+                  })
+                }
+                placeholder="Enter Description"
                 className="col-span-3"
               />
             </div>
           </div>
           <DialogFooter>
-            <Button type="button">Add Blog</Button>
+            <Button
+              type="button"
+              onClick={handleSaveBlogData}
+            >
+              Add Blog
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
