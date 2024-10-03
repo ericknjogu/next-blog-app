@@ -19,7 +19,7 @@ export default function AddNewBlog({
   setOpenBlogDialog,
   openBlogDialog,
   loading,
-  setLoading,
+  initialBlogFormData,
   blogFormData,
   setBlogFormData,
   handleSaveBlogData,
@@ -32,7 +32,10 @@ export default function AddNewBlog({
 
       <Dialog
         open={openBlogDialog}
-        onOpenChange={setOpenBlogDialog}
+        onOpenChange={() => {
+          setOpenBlogDialog(false);
+          setBlogFormData(initialBlogFormData);
+        }}
       >
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -87,7 +90,7 @@ export default function AddNewBlog({
               type="button"
               onClick={handleSaveBlogData}
             >
-              Add Blog
+              {loading ? "saving Changes..." : "Save Blog"}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -14,10 +14,9 @@ export default function BlogOverview() {
   const [loading, setLoading] = useState(false);
   const [blogFormData, setBlogFormData] = useState(initialBlogFormData);
 
-  console.log(blogFormData);
-
   async function handleSaveBlogData() {
     try {
+      setLoading(true);
       const response = await fetch("/api/add-blog", {
         method: "POST",
         headers: {
@@ -26,6 +25,12 @@ export default function BlogOverview() {
         body: JSON.stringify(blogFormData),
       });
       const result = await response.json();
+
+      if (result?.success) {
+        setBlogFormData(blogFormData);
+        setOpenBlogDialog(false);
+        setLoading(false);
+      }
       console.log(result);
     } catch (error) {
       console.log(error);
@@ -40,7 +45,7 @@ export default function BlogOverview() {
         openBlogDialog={openBlogDialog}
         setOpenBlogDialog={setOpenBlogDialog}
         loading={loading}
-        setLoading={setLoading}
+        initialBlogFormData={initialBlogFormData}
         blogFormData={blogFormData}
         setBlogFormData={setBlogFormData}
         handleSaveBlogData={handleSaveBlogData}
