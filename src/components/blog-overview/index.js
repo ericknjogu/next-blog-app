@@ -27,8 +27,8 @@ export default function BlogOverview() {
       const result = await response.json();
 
       if (result?.success) {
-        setBlogFormData(blogFormData);
         setOpenBlogDialog(false);
+        setBlogFormData(initialBlogFormData);
         setLoading(false);
       }
       console.log(result);
@@ -45,7 +45,6 @@ export default function BlogOverview() {
         openBlogDialog={openBlogDialog}
         setOpenBlogDialog={setOpenBlogDialog}
         loading={loading}
-        initialBlogFormData={initialBlogFormData}
         blogFormData={blogFormData}
         setBlogFormData={setBlogFormData}
         handleSaveBlogData={handleSaveBlogData}

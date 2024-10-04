@@ -19,7 +19,7 @@ export default function AddNewBlog({
   setOpenBlogDialog,
   openBlogDialog,
   loading,
-  initialBlogFormData,
+
   blogFormData,
   setBlogFormData,
   handleSaveBlogData,
@@ -34,7 +34,10 @@ export default function AddNewBlog({
         open={openBlogDialog}
         onOpenChange={() => {
           setOpenBlogDialog(false);
-          setBlogFormData(initialBlogFormData);
+          setBlogFormData({
+            title: "",
+            description: "",
+          });
         }}
       >
         <DialogContent className="sm:max-w-[425px]">
