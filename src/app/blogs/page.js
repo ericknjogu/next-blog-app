@@ -20,7 +20,5 @@ async function fetchListofBlogs() {
 export default async function Blogs() {
   const blogList = await fetchListofBlogs();
 
-  console.log(blogList, "blogList");
-
-  return <BlogOverview />;
+  return <BlogOverview blogList={blogList} />;
 }
