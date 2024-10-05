@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import AddNewBlog from "../add-new-blog";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const initialBlogFormData = {
   title: "",
@@ -21,6 +21,13 @@ export default function BlogOverview({ blogList }) {
   const [openBlogDialog, setOpenBlogDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [blogFormData, setBlogFormData] = useState(initialBlogFormData);
+
+  //refresh page after ading mew blog
+  const router = useRouter();
+
+  useEffect(() => {
+    router.refresh();
+  }, []);
 
   async function handleSaveBlogData() {
     try {
@@ -38,6 +45,7 @@ export default function BlogOverview({ blogList }) {
         setOpenBlogDialog(false);
         setBlogFormData(initialBlogFormData);
         setLoading(false);
+        router.refresh();
       }
       console.log(result);
     } catch (error) {
@@ -61,10 +69,19 @@ export default function BlogOverview({ blogList }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6  mt-5">
         {blogList && blogList.length > 0
           ? blogList.map((blogItem) => (
-              <Card key={blogItem._id}>
+              <Card
+                key={blogItem._id}
+                className="w-full p-5"
+              >
                 <CardContent>
-                  <CardTitle>{blogItem.title}</CardTitle>
-                  <CardDescription>{blogItem.description}</CardDescription>
+                  <CardTitle className="mb-3">{blogItem.title}</CardTitle>
+                  <CardDescription className="mb-4">
+                    {blogItem.description}
+                  </CardDescription>
+                  <div className="flex gap-3  items-center mt-5">
+                    <Button>Edit</Button>
+                    <Button>Delete</Button>
+                  </div>
                 </CardContent>
               </Card>
             ))
