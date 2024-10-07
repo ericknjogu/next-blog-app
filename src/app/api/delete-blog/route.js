@@ -1,5 +1,6 @@
 import connectToDB from "@/app/database";
 import { NextResponse } from "next/server";
+import Blog from "@/app/models/blogs";
 
 export async function DELETE(req) {
   try {

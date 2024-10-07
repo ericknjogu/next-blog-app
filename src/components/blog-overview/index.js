@@ -55,6 +55,22 @@ export default function BlogOverview({ blogList }) {
     }
   }
 
+  async function handleDeleteBlog(getCurrentId) {
+    try {
+      const apiResponse = await fetch(`/api/delete-blog?id=${getCurrentId}`, {
+        method: "DELETE",
+      });
+
+      const result = await apiResponse.json();
+
+      if (result?.success) {
+        router.refresh();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center  bg-gradient-to-r from-purple-400 to-blue-500 pt-10 px-10">
       <AddNewBlog
@@ -80,7 +96,9 @@ export default function BlogOverview({ blogList }) {
                   </CardDescription>
                   <div className="flex gap-3  items-center mt-5">
                     <Button>Edit</Button>
-                    <Button>Delete</Button>
+                    <Button onClick={() => handleDeleteBlog(blogItem._id)}>
+                      Delete
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
