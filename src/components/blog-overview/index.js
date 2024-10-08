@@ -90,8 +90,10 @@ export default function BlogOverview({ blogList }) {
                 className="w-full p-5"
               >
                 <CardContent>
-                  <CardTitle className="mb-3">{blogItem.title}</CardTitle>
-                  <CardDescription className="mb-4">
+                  <CardTitle className="mb-3 text-l font-bold capitalize">
+                    {blogItem.title}
+                  </CardTitle>
+                  <CardDescription className="mb-4 text-lg normal-case">
                     {blogItem.description}
                   </CardDescription>
                   <div className="flex gap-3  items-center mt-5">
