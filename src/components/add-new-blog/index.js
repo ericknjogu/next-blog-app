@@ -23,6 +23,8 @@ export default function AddNewBlog({
   blogFormData,
   setBlogFormData,
   handleSaveBlogData,
+  currentEditedBlogId,
+  setCurrentEditedBlogId,
 }) {
   return (
     <div>
@@ -38,13 +40,18 @@ export default function AddNewBlog({
             title: "",
             description: "",
           });
+          setCurrentEditedBlogId(null);
         }}
       >
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Add new BLog</DialogTitle>
+            <DialogTitle>
+              {currentEditedBlogId ? "Edit Blog" : "Add New Blog"}
+            </DialogTitle>
             <DialogDescription>
-              Add a new blog to your bloglist.
+              {currentEditedBlogId
+                ? "Edit your Blog"
+                : "Add a new blog to your account"}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">

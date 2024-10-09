@@ -22,6 +22,7 @@ export default function BlogOverview({ blogList }) {
   const [openBlogDialog, setOpenBlogDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [blogFormData, setBlogFormData] = useState(initialBlogFormData);
+  const [currentEditedBlogId, setCurrentEditedBlogId] = useState(null);
 
   //refresh page after ading mew blog
   const router = useRouter();
@@ -33,19 +34,26 @@ export default function BlogOverview({ blogList }) {
   async function handleSaveBlogData() {
     try {
       setLoading(true);
-      const response = await fetch("/api/add-blog", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Specify content type
-        },
-        body: JSON.stringify(blogFormData),
-      });
+      const response =
+        currentEditedBlogId !== null
+          ? await fetch(`/api/update-blog?id=${currentEditedBlogId}`, {
+              method: "PUT",
+              body: JSON.stringify(blogFormData),
+            })
+          : await fetch("/api/add-blog", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json", // Specify content type
+              },
+              body: JSON.stringify(blogFormData),
+            });
       const result = await response.json();
 
       if (result?.success) {
         setOpenBlogDialog(false);
         setBlogFormData(initialBlogFormData);
         setLoading(false);
+        setCurrentEditedBlogId(null);
         router.refresh();
       }
       console.log(result);
@@ -72,6 +80,17 @@ export default function BlogOverview({ blogList }) {
     }
   }
 
+  function handleEdit(getCurrentBlog) {
+    setCurrentEditedBlogId(getCurrentBlog?._id);
+
+    setBlogFormData({
+      title: getCurrentBlog?.title,
+      description: getCurrentBlog?.description,
+    });
+
+    setOpenBlogDialog(true);
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center  bg-gradient-to-r from-purple-400 to-blue-500 pt-10 px-10">
       <AddNewBlog
@@ -81,6 +100,8 @@ export default function BlogOverview({ blogList }) {
         blogFormData={blogFormData}
         setBlogFormData={setBlogFormData}
         handleSaveBlogData={handleSaveBlogData}
+        currentEditedBlogId={currentEditedBlogId}
+        setCurrentEditedBlogId={setCurrentEditedBlogId}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6  mt-5">
@@ -98,7 +119,7 @@ export default function BlogOverview({ blogList }) {
                   {blogItem.description}
                 </CardDescription>
                 <div className="flex gap-3  items-center mt-5">
-                  <Button>Edit</Button>
+                  <Button onClick={() => handleEdit(blogItem)}>Edit</Button>
                   <Button onClick={() => handleDeleteBlog(blogItem._id)}>
                     Delete
                   </Button>
