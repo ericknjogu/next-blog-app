@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { Label } from "../ui/label";
 
 const initialBlogFormData = {
   title: "",
@@ -83,29 +84,31 @@ export default function BlogOverview({ blogList }) {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6  mt-5">
-        {blogList && blogList.length > 0
-          ? blogList.map((blogItem) => (
-              <Card
-                key={blogItem._id}
-                className="w-full p-5"
-              >
-                <CardContent>
-                  <CardTitle className="mb-3 text-l font-bold capitalize">
-                    {blogItem.title}
-                  </CardTitle>
-                  <CardDescription className="mb-4 text-lg normal-case">
-                    {blogItem.description}
-                  </CardDescription>
-                  <div className="flex gap-3  items-center mt-5">
-                    <Button>Edit</Button>
-                    <Button onClick={() => handleDeleteBlog(blogItem._id)}>
-                      Delete
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
-          : null}
+        {blogList && blogList.length > 0 ? (
+          blogList.map((blogItem) => (
+            <Card
+              key={blogItem._id}
+              className="w-full p-5"
+            >
+              <CardContent>
+                <CardTitle className="mb-3 text-l font-bold capitalize">
+                  {blogItem.title}
+                </CardTitle>
+                <CardDescription className="mb-4 text-lg normal-case">
+                  {blogItem.description}
+                </CardDescription>
+                <div className="flex gap-3  items-center mt-5">
+                  <Button>Edit</Button>
+                  <Button onClick={() => handleDeleteBlog(blogItem._id)}>
+                    Delete
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <Label>No Blogs Found PLease add!</Label>
+        )}
       </div>
     </div>
   );
