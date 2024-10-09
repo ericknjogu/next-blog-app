@@ -107,7 +107,9 @@ export default function BlogOverview({ blogList }) {
             </Card>
           ))
         ) : (
-          <Label>No Blogs Found PLease add!</Label>
+          <Label className="text-3xl font-extrabold text-center">
+            No Blogs Found PLease add!
+          </Label>
         )}
       </div>
     </div>
